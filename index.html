@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caffe In Coffee Co — Anaheim, CA</title>
+<meta name="description" content="Caffe In Coffee Co — small-batch coffee at 5642 E La Palma Ave #112, Anaheim, CA 92807. Open Monday to Friday 6:30am–5pm, Saturday and Sunday 8am–5pm.">
+<meta name="theme-color" content="#f3e4bf">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Caffe In Coffee Co">
+<meta property="og:description" content="Small-batch coffee, poured with care in Anaheim Hills.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%233a2a1e'/><text y='72' x='50' text-anchor='middle' font-size='58' font-family='system-ui' font-weight='700' fill='%23f3e4bf'>C</text></svg>">
+</head>
+<body>
+
+<a class="skip-link" href="#menu">Skip to menu</a>
+
+<!-- ============================== NAV ============================== -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a class="brand" href="#top">
+      <span class="brand__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="brand__text">Caffe&nbsp;In<em>Coffee Co</em></span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#menu">Menu</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#build">Build a Cup</a>
+      <a href="#visit">Visit</a>
+    </nav>
+
+    <div class="nav__actions">
+      <span class="status" id="statusPill" data-state="loading">
+        <i class="status__dot" aria-hidden="true"></i>
+        <span class="status__text">Checking hours…</span>
+      </span>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to dark theme" title="Switch theme">
+        <svg viewBox="0 0 24 24" class="icon-sun" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g class="rays"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></g></svg>
+        <svg viewBox="0 0 24 24" class="icon-moon" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.6 8.6 0 1 0 10.2 10.2z"/></svg>
+      </button>
+      <button class="icon-btn nav__burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="nav__progress" id="navProgress" aria-hidden="true"></div>
+</header>
+
+<div class="mobile-nav" id="mobileNav" hidden>
+  <a href="#menu">Menu</a>
+  <a href="#gallery">Gallery</a>
+  <a href="#build">Build a Cup</a>
+  <a href="#visit">Visit</a>
+  <a class="btn btn--solid" id="mobileDirections" href="#visit">Get Directions</a>
+</div>
+
+<main id="top">
+
+<!-- ============================== HERO ============================== -->
+<section class="hero">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="hero__inner">
+
+    <div class="hero__copy">
+      <p class="eyebrow reveal">Anaheim Hills, California</p>
+      <h1 class="hero__title reveal">
+        <span>Caffe In</span>
+        <span class="hero__title-sub">Coffee&nbsp;Co</span>
+      </h1>
+      <p class="hero__lede reveal">Small-batch coffee, poured with care. Espresso pulled to order, cold brew steeped overnight, and a kitchen that opens before the sun does.</p>
+
+      <div class="hero__cta reveal">
+        <a class="btn btn--solid" href="#menu">See the menu</a>
+        <a class="btn btn--ghost" id="heroDirections" href="#visit">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          5642 E La Palma Ave
+        </a>
+      </div>
+
+      <dl class="hero__hours reveal">
+        <div><dt>Mon – Fri</dt><dd>6:30 am – 5:00 pm</dd></div>
+        <div><dt>Sat – Sun</dt><dd>8:00 am – 5:00 pm</dd></div>
+      </dl>
+    </div>
+
+    <div class="hero__art reveal">
+      <figure class="hero__photo" id="heroPhoto">
+        <img alt="Caffe In Coffee Co" loading="eager" decoding="async">
+        <figcaption>Caffe In Coffee Co · Anaheim, CA</figcaption>
+      </figure>
+      <div class="hero__cup" aria-hidden="true">
+        <div class="steam"><i></i><i></i><i></i></div>
+        <div class="cup">
+          <div class="cup__body"><div class="cup__liquid"></div><div class="cup__shine"></div></div>
+          <div class="cup__handle"></div>
+          <div class="cup__saucer"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>Espresso</span><i>◦</i><span>Pour Over</span><i>◦</i><span>Nitro Cold Brew</span><i>◦</i><span>Matcha</span><i>◦</i><span>Fresh Pastry</span><i>◦</i><span>Open at 6:30</span><i>◦</i>
+      <span>Espresso</span><i>◦</i><span>Pour Over</span><i>◦</i><span>Nitro Cold Brew</span><i>◦</i><span>Matcha</span><i>◦</i><span>Fresh Pastry</span><i>◦</i><span>Open at 6:30</span><i>◦</i>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== MENU ============================== -->
+<section class="section" id="menu">
+  <div class="wrap">
+    <header class="section__head reveal">
+      <p class="eyebrow">The Menu</p>
+      <h2>Pulled, brewed,<br>and baked daily.</h2>
+      <p class="section__lede">Filter by what you are after, or switch between hot and iced to see what we pour cold.</p>
+    </header>
+
+    <div class="controls reveal">
+      <div class="chips" id="menuChips" role="tablist" aria-label="Menu categories"></div>
+
+      <div class="controls__right">
+        <div class="segmented" id="tempToggle" role="radiogroup" aria-label="Temperature">
+          <button type="button" role="radio" data-temp="all"  aria-checked="true">Both</button>
+          <button type="button" role="radio" data-temp="hot"  aria-checked="false">Hot</button>
+          <button type="button" role="radio" data-temp="iced" aria-checked="false">Iced</button>
+          <span class="segmented__pill" aria-hidden="true"></span>
+        </div>
+
+        <label class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+          <input type="search" id="menuSearch" placeholder="Search the menu" aria-label="Search the menu" autocomplete="off">
+        </label>
+      </div>
+    </div>
+
+    <div class="menu-grid" id="menuGrid"></div>
+    <p class="empty" id="menuEmpty" hidden>Nothing matches that. <button type="button" class="linkish" id="menuReset">Clear the filters</button></p>
+  </div>
+</section>
+
+<!-- ============================== GALLERY ============================== -->
+<section class="section section--alt" id="gallery">
+  <div class="wrap">
+    <header class="section__head reveal">
+      <p class="eyebrow">Gallery</p>
+      <h2>A look inside<br>the cup.</h2>
+      <p class="section__lede">Tap any tile to open it full size. Arrow keys move through the set.</p>
+    </header>
+
+    <div class="chips chips--center reveal" id="galleryChips" role="tablist" aria-label="Gallery filters"></div>
+    <div class="gallery" id="galleryGrid"></div>
+  </div>
+</section>
+
+<!-- ============================== BUILD A CUP ============================== -->
+<section class="section" id="build">
+  <div class="wrap">
+    <header class="section__head reveal">
+      <p class="eyebrow">Build a Cup</p>
+      <h2>Know what you<br>want before you go.</h2>
+      <p class="section__lede">Put your order together here, then show the summary at the counter.</p>
+    </header>
+
+    <div class="builder reveal">
+      <div class="builder__form">
+        <fieldset class="field">
+          <legend>Base</legend>
+          <div class="opts" id="bBases"></div>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend>Temperature</legend>
+          <div class="opts opts--wide" id="bTemps"></div>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend>Size</legend>
+          <div class="opts opts--wide" id="bSizes"></div>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend>Milk</legend>
+          <div class="opts" id="bMilks"></div>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend>Syrups <span class="field__note">pick as many as you like</span></legend>
+          <div class="opts" id="bSyrups"></div>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend>Extras</legend>
+          <div class="opts opts--narrow" id="bExtras"></div>
+        </fieldset>
+      </div>
+
+      <aside class="builder__receipt">
+        <div class="receipt">
+          <div class="receipt__cup">
+            <div class="cup cup--lg" id="bCup">
+              <div class="cup__body"><div class="cup__liquid"></div><div class="cup__shine"></div><div class="cup__ice" hidden><i></i><i></i><i></i></div></div>
+              <div class="cup__handle"></div>
+              <div class="cup__straw" hidden></div>
+            </div>
+            <div class="steam" id="bSteam"><i></i><i></i><i></i></div>
+          </div>
+
+          <h3 class="receipt__name" id="bName">Medium Latte</h3>
+          <ul class="receipt__lines" id="bLines"></ul>
+
+          <div class="receipt__total">
+            <span>Total</span>
+            <strong id="bTotal">$5.75</strong>
+          </div>
+          <p class="receipt__fine">Sample pricing — check the board in store.</p>
+          <button class="btn btn--solid btn--block" type="button" id="bCopy">Copy my order</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== VISIT ============================== -->
+<section class="section section--alt" id="visit">
+  <div class="wrap">
+    <header class="section__head reveal">
+      <p class="eyebrow">Visit</p>
+      <h2>Find us on<br>La Palma.</h2>
+    </header>
+
+    <div class="visit reveal">
+      <div class="visit__card">
+        <h3>Address</h3>
+        <address>
+          5642 E La Palma Ave #112<br>
+          Anaheim, CA 92807
+        </address>
+        <div class="visit__btns">
+          <a class="btn btn--solid" id="directionsBtn" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+            Directions
+          </a>
+          <button class="btn btn--ghost" type="button" id="copyAddress">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M15 5.5A2.5 2.5 0 0 0 12.5 4h-6A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 5.5 15"/></svg>
+            Copy address
+          </button>
+        </div>
+        <p class="visit__status">
+          <span class="status" id="statusPillVisit" data-state="loading">
+            <i class="status__dot" aria-hidden="true"></i>
+            <span class="status__text">Checking hours…</span>
+          </span>
+        </p>
+        <div class="visit__contact" id="contactLinks"></div>
+      </div>
+
+      <div class="visit__card">
+        <h3>Hours</h3>
+        <table class="hours" id="hoursTable">
+          <caption class="sr-only">Opening hours by day</caption>
+          <tbody></tbody>
+        </table>
+        <p class="visit__now" id="hoursNow"></p>
+      </div>
+
+      <div class="visit__map">
+        <div class="map" id="mapCard">
+          <div class="map__grid" aria-hidden="true"></div>
+          <div class="map__road map__road--h" aria-hidden="true"><span>E La Palma Ave</span></div>
+          <div class="map__road map__road--v" aria-hidden="true"></div>
+          <div class="map__pin" aria-hidden="true"><i></i></div>
+          <a class="map__cover" id="mapLink" href="#" target="_blank" rel="noopener">
+            <span>Open in Maps</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <div>
+      <p class="footer__brand">Caffe In Coffee Co</p>
+      <p class="footer__addr">5642 E La Palma Ave #112 · Anaheim, CA 92807</p>
+    </div>
+    <div class="footer__hours">
+      <p><span>Mon – Fri</span> 6:30 am – 5:00 pm</p>
+      <p><span>Sat – Sun</span> 8:00 am – 5:00 pm</p>
+    </div>
+    <p class="footer__legal">© <span id="year"></span> Caffe In Coffee Co.</p>
+  </div>
+</footer>
+
+<!-- ============================== LIGHTBOX ============================== -->
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Gallery viewer">
+  <button class="lightbox__close" id="lbClose" type="button" aria-label="Close">&times;</button>
+  <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" type="button" aria-label="Previous">&#8249;</button>
+  <figure class="lightbox__stage" id="lbStage"></figure>
+  <button class="lightbox__nav lightbox__nav--next" id="lbNext" type="button" aria-label="Next">&#8250;</button>
+  <p class="lightbox__count" id="lbCount"></p>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
