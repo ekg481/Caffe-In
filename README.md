@@ -26,9 +26,8 @@ The address and opening hours came off the shop's own signage and are correct.
 Some of the rest is placeholder and needs a pass — every item is flagged with a
 `⚠️` comment in `config.js`:
 
-- **Menu** — the item names, descriptions and prices in `MENU` are plausible
-  samples, not the real menu. Replace them.
-- **Build a Cup** — the add-on prices in `BUILDER` are samples too.
+- **Menu** — real names and prices from the ordering page, but only its
+  first 30 items. Pages 2 and 3 still need adding to `MENU`.
 - **Gallery captions** — the three real photos have deliberately neutral
   captions. Rewrite them to describe what each photo actually shows.
 - **Phone / email / Instagram** — blank in `CAFE`. Fill any of them in and the
@@ -68,11 +67,11 @@ To self-host instead, drop the files in `assets/img/` and point `PHOTOS` at them
 - **Open / Closed pill** computed from `CAFE.hours` in the shop's own timezone,
   so it is right for the shop rather than for the visitor's timezone. Warns when
   closing is within 30 minutes, and says when the shop opens next.
-- **Menu** filtered by category, by hot/iced, and by free-text search. Prices
-  follow the hot/iced switch.
+- **Menu** — the real board from the shop's ordering page, filtered by
+  category and free-text search.
 - **Gallery** with filters and a keyboard-navigable lightbox (arrows, Escape).
-- **Build a Cup** — base, size, milk, syrups and extras with a live running
-  total and a copy-to-clipboard summary. Cold Brew disables the Hot option.
+- **Reviews** — the shop's Yelp reviews in a carousel (arrows, dots, swipe,
+  arrow keys). Quotes are rendered as text and never edited.
 - **Directions** and **Copy address** buttons, plus an hours table with today
   highlighted.
 - Light and dark themes, remembered per visitor; follows the system setting

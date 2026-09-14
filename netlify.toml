@@ -39,8 +39,8 @@
     # Self-hosted fonts and no inline scripts, so this stays tight. Inline
     # style attributes are set from JS (gradients, animation delays), hence
     # 'unsafe-inline' on styles only. The image host is the shop's Google
-    # listing photos — drop it if you move to self-hosted photos.
-    Content-Security-Policy = "default-src 'self'; img-src 'self' https://lh3.googleusercontent.com data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'self'"
+    # listing and Yelp photos — drop them if you move to self-hosted photos.
+    Content-Security-Policy = "default-src 'self'; img-src 'self' https://lh3.googleusercontent.com https://s3-media0.fl.yelpcdn.com data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'self'"
 
 [[headers]]
   for = "/*.html"

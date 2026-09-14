@@ -1,20 +1,22 @@
 /* =============================================================================
    CAFFE IN COFFEE CO — SITE CONTENT
    -----------------------------------------------------------------------------
-   Everything that is text, price, or photo lives in this one file so the site
-   can be updated without touching markup or logic.
+   Everything that is text, price, or photo lives in this one file.
 
-   ⚠️  PLACEHOLDER CONTENT — review before going live:
-       • MENU item names, descriptions and PRICES are sensible samples, not the
-         shop's real menu. Replace them with the actual menu.
-       • BUILDER add-on prices are samples too.
-       • CAFE.phone / CAFE.email / CAFE.instagram are blank. Fill them in and the
-         matching buttons appear automatically; leave blank and they stay hidden.
-       • GALLERY captions are deliberately neutral — rewrite them to describe
-         what each photo actually shows.
+   SOURCES
+     • Name, address and hours — the shop's own signage.
+     • MENU — the shop's online ordering page. Names are normalised to title
+       case for presentation; prices are exactly as listed.
+     • REVIEWS — the shop's Yelp page, quoted verbatim.
 
-   ✅ VERIFIED CONTENT (from the shop's own signage):
-       • Name, street address, and opening hours.
+   ⚠️  STILL TO DO
+     • The ordering page paginates: these are the first 30 items. Pages 2 and 3
+       are not in here yet — add them to MENU in the same shape.
+     • CAFE.phone / .email / .instagram / .yelp are blank. Fill any of them in
+       and the matching link appears on its own; leave it blank and it stays
+       hidden.
+     • Gallery captions on the photos are neutral — rewrite them to say what
+       each photo actually shows.
    ========================================================================== */
 
 const CAFE = {
@@ -27,146 +29,186 @@ const CAFE = {
     line2: 'Anaheim, CA 92807'
   },
 
-  // Used for the live "Open now / Closed" pill so it is correct for the shop,
-  // not for whatever timezone the visitor happens to be in.
+  // Drives the live "Open now / Closed" pill, evaluated in the shop's own
+  // timezone rather than the visitor's.
   timezone: 'America/Los_Angeles',
 
   // 0 = Sunday … 6 = Saturday. Times are minutes from midnight.
-  // Monday–Friday 6:30am–5:00pm, Saturday–Sunday 8:00am–5:00pm.
   hours: [
-    { day: 'Sunday',    open: 8 * 60,          close: 17 * 60 },
-    { day: 'Monday',    open: 6 * 60 + 30,     close: 17 * 60 },
-    { day: 'Tuesday',   open: 6 * 60 + 30,     close: 17 * 60 },
-    { day: 'Wednesday', open: 6 * 60 + 30,     close: 17 * 60 },
-    { day: 'Thursday',  open: 6 * 60 + 30,     close: 17 * 60 },
-    { day: 'Friday',    open: 6 * 60 + 30,     close: 17 * 60 },
-    { day: 'Saturday',  open: 8 * 60,          close: 17 * 60 }
+    { day: 'Sunday',    open: 8 * 60,      close: 17 * 60 },
+    { day: 'Monday',    open: 6 * 60 + 30, close: 17 * 60 },
+    { day: 'Tuesday',   open: 6 * 60 + 30, close: 17 * 60 },
+    { day: 'Wednesday', open: 6 * 60 + 30, close: 17 * 60 },
+    { day: 'Thursday',  open: 6 * 60 + 30, close: 17 * 60 },
+    { day: 'Friday',    open: 6 * 60 + 30, close: 17 * 60 },
+    { day: 'Saturday',  open: 8 * 60,      close: 17 * 60 }
   ],
 
-  // TODO: fill these in — each one reveals its button in the nav / Visit section.
+  // TODO: fill these in — each one reveals its own link.
   phone: '',
   email: '',
-  instagram: ''
+  instagram: '',
+  yelp: ''   // e.g. 'https://www.yelp.com/biz/caffe-in-coffee-co-anaheim'
 };
 
 /* -----------------------------------------------------------------------------
-   PHOTOS
-   These are the shop's public Google listing photos, loaded straight from
-   Google's CDN. If a URL ever stops resolving the card falls back to a drawn
-   illustration instead of a broken image, so nothing on the page breaks.
-   To self-host instead: drop the files in assets/img/ and swap the `src`.
+   PHOTOS — the shop's public Google listing and Yelp photos, loaded from those
+   CDNs. If a URL stops resolving the tile falls back to a drawn illustration,
+   so nothing on the page breaks. To self-host: drop files in assets/img/ and
+   swap the values below.
 -------------------------------------------------------------------------------*/
 const PHOTOS = {
-  one: 'https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkWRCvUqR-ibGFb4WUOBYOuIy0VNPP6q95kkeQFMmQtDJMr-0A_nmYBBKHssp3u2sf63nx9z6b4v4fl3dweQrUzUjzIq4lFNEreag_a_8-pJDDXjTsxrMe8bco_1LN__3O5g1oT=s1360-w1360-h1020-rw',
-  two: 'https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnDPDIr6bAwWPZtRWZvipviYuyj-_NPjJWKOT_mnd9CgcW-JtcBfTkacXk42lQ2fjcBOMFFqKQJ1xrR41kB5W6glBBZSTT_d-ld8BzdUpX5OJY1pQ74I3K7o7y64IK_xhjM2oFLysN9JkE=s1360-w1360-h1020-rw',
-  three: 'https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkcSMz9jeVV4WaKLBjYF0OvjdYR2LIPiR7JAiHIvD4lvgt5fya57horM3ko7o9zIiI5zvc8cYDfJS5ke3Vc3GRBnVjibjQacLFjjJrSxY2Iz7n_sy8UZayqUuVWaqAn3ubTHG1zncpiNYF4=s1360-w1360-h1020-rw'
+  shopOne:   'https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkWRCvUqR-ibGFb4WUOBYOuIy0VNPP6q95kkeQFMmQtDJMr-0A_nmYBBKHssp3u2sf63nx9z6b4v4fl3dweQrUzUjzIq4lFNEreag_a_8-pJDDXjTsxrMe8bco_1LN__3O5g1oT=s1360-w1360-h1020-rw',
+  shopTwo:   'https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnDPDIr6bAwWPZtRWZvipviYuyj-_NPjJWKOT_mnd9CgcW-JtcBfTkacXk42lQ2fjcBOMFFqKQJ1xrR41kB5W6glBBZSTT_d-ld8BzdUpX5OJY1pQ74I3K7o7y64IK_xhjM2oFLysN9JkE=s1360-w1360-h1020-rw',
+  shopThree: 'https://lh3.googleusercontent.com/gps-cs-s/AHRPTWkcSMz9jeVV4WaKLBjYF0OvjdYR2LIPiR7JAiHIvD4lvgt5fya57horM3ko7o9zIiI5zvc8cYDfJS5ke3Vc3GRBnVjibjQacLFjjJrSxY2Iz7n_sy8UZayqUuVWaqAn3ubTHG1zncpiNYF4=s1360-w1360-h1020-rw',
+  yelpOne:   'https://s3-media0.fl.yelpcdn.com/bphoto/BDOaJKDEsUOpGpV--JXltw/258s.jpg',
+  yelpTwo:   'https://s3-media0.fl.yelpcdn.com/bphoto/t1OLnO0xngD9SzPFp5OC_A/258s.jpg'
 };
 
 /* -----------------------------------------------------------------------------
-   MENU  ⚠️ PLACEHOLDER — replace names, descriptions and prices with the real ones.
+   MENU — from the shop's ordering page. Names title-cased for presentation,
+   prices exactly as listed. No descriptions: the ordering page carries none,
+   and inventing them would put words in the shop's mouth.
 
-   temps : which temperatures the drink is served at. The Hot/Iced switch filters
-           on this, and `price` is keyed by the same words.
-   art   : colour stops used to draw the little cup illustration, poured top to
-           bottom. Two or three colours work best.
+   price     : a number, or { from, to } for an item priced as a range.
+   art       : colour stops for the drawn cup, poured top to bottom.
+   iced      : true only where the item is explicitly listed as an iced drink.
 -------------------------------------------------------------------------------*/
 const MENU = [
-  // ---- Espresso ----------------------------------------------------------
-  { cat: 'espresso', name: 'Espresso',    desc: 'Two ounces, pulled to order. Nothing to hide behind.', temps: ['hot'],          price: { hot: 3.25 },              art: ['#4a2c17', '#2a170c'] },
-  { cat: 'espresso', name: 'Macchiato',   desc: 'Espresso marked with a spoonful of dense foam.',       temps: ['hot'],          price: { hot: 3.75 },              art: ['#f0e2cd', '#5a3a20', '#2f1b0e'] },
-  { cat: 'espresso', name: 'Cortado',     desc: 'Equal parts espresso and steamed milk. Balanced.',     temps: ['hot'],          price: { hot: 4.50 },              art: ['#e3c9a6', '#8a5a32'] },
-  { cat: 'espresso', name: 'Cappuccino',  desc: 'Espresso under a thick, velvety cap of foam.',         temps: ['hot'],          price: { hot: 4.75 },              art: ['#f6ecd9', '#c99a63', '#6b4322'] },
-  { cat: 'espresso', name: 'Latte',       desc: 'Silky steamed milk, a clean pour, a soft finish.',     temps: ['hot', 'iced'],  price: { hot: 5.00, iced: 5.50 },  art: ['#efdcc0', '#b07f4c'] },
-  { cat: 'espresso', name: 'Flat White',  desc: 'Ristretto shots and microfoam. Dense and sweet.',      temps: ['hot'],          price: { hot: 5.25 },              art: ['#e8d3b2', '#9a6a3c'] },
-  { cat: 'espresso', name: 'Mocha',       desc: 'Dark chocolate stirred through espresso and milk.',    temps: ['hot', 'iced'],  price: { hot: 5.75, iced: 6.00 },  art: ['#e6cfae', '#7a4a28', '#38200f'] },
-  { cat: 'espresso', name: 'Americano',   desc: 'Espresso lengthened with hot water. Crema intact.',    temps: ['hot', 'iced'],  price: { hot: 4.00, iced: 4.50 },  art: ['#6b4123', '#301b0d'] },
+  // ---- Coffee ------------------------------------------------------------
+  { cat: 'coffee', name: 'Americano',                price: 4.75, art: ['#6b4123', '#2f1b0d'] },
+  { cat: 'coffee', name: 'Latte',                    price: 5.75, art: ['#efdcc0', '#b07f4c'] },
+  { cat: 'coffee', name: 'Flat White',               price: 5.50, art: ['#e8d3b2', '#9a6a3c'] },
+  { cat: 'coffee', name: 'Spanish Latte',            price: 6.00, art: ['#f2e2c6', '#c08a52', '#7a4a24'] },
+  { cat: 'coffee', name: 'Caramel Latte',            price: 6.00, art: ['#f0dcb4', '#c68a3e'] },
+  { cat: 'coffee', name: 'White Mocha Latte',        price: 6.00, art: ['#f6ead4', '#cfa470'] },
+  { cat: 'coffee', name: 'Honey Latte',              price: 6.00, art: ['#f4e0b0', '#d09a44'] },
+  { cat: 'coffee', name: 'Madagascar Vanilla Latte', price: 6.00, art: ['#f6ecd8', '#c49a63'] },
+  { cat: 'coffee', name: 'Brown Sugar Oat Latte',    price: 7.00, art: ['#eed7ac', '#a76c32', '#6b4118'] },
+  { cat: 'coffee', name: 'Coconut Spice Oat Latte',  price: 7.00, art: ['#f6ecd9', '#c99558'] },
+  { cat: 'coffee', name: 'Biscoff Latte',            price: 6.75, art: ['#f2ddb8', '#b9773a', '#7d4a1e'] },
+  { cat: 'coffee', name: 'Vanilla Cream Latte',      price: 7.00, art: ['#fbf1dd', '#c9a06a', '#7c5228'] },
+  { cat: 'coffee', name: 'Banana Cream Latte',       price: 7.00, art: ['#f8ecc4', '#dcc07a', '#a8763c'] },
+  { cat: 'coffee', name: 'Iced Banana Latte',        price: 6.00, art: ['#f6e9bf', '#c69a55'], iced: true },
+  { cat: 'coffee', name: 'Strawberry Latte',         price: 6.00, art: ['#f9d8d2', '#d4746a'] },
+  { cat: 'coffee', name: 'Sugar Free Vanilla',       price: 5.75, art: ['#f2e4cb', '#b98d5c'] },
 
-  // ---- Brewed ------------------------------------------------------------
-  { cat: 'brew', name: 'Drip Coffee',     desc: 'The house blend, brewed fresh through the day.',       temps: ['hot'],          price: { hot: 3.25 },              art: ['#7a4a26', '#3a2110'] },
-  { cat: 'brew', name: 'Pour Over',       desc: 'Single origin, ground and brewed one cup at a time.',  temps: ['hot'],          price: { hot: 5.50 },              art: ['#9a6236', '#4a2a14'] },
-  { cat: 'brew', name: 'Cold Brew',       desc: 'Steeped sixteen hours. Low acid, deep and smooth.',    temps: ['iced'],         price: { iced: 5.25 },             art: ['#5c3418', '#2a1409'] },
-  { cat: 'brew', name: 'Nitro Cold Brew', desc: 'Cold brew on nitro — cascading, creamy, unsweetened.', temps: ['iced'],         price: { iced: 6.25 },             art: ['#c9a179', '#4a2a13', '#201006'] },
+  // ---- Cold Brew ---------------------------------------------------------
+  { cat: 'coldbrew', name: 'Cold Brew',               price: 5.75, art: ['#5c3418', '#26120a'], iced: true },
+  { cat: 'coldbrew', name: 'Maple Cold Brew Latte',   price: 6.25, art: ['#e4c294', '#7d4a20', '#33190b'], iced: true },
+  { cat: 'coldbrew', name: 'Vanilla Cream Cold Brew', price: 6.75, art: ['#fbf1dd', '#7a4622', '#2c1509'], iced: true },
 
-  // ---- Not coffee --------------------------------------------------------
-  { cat: 'other', name: 'Matcha Latte',       desc: 'Ceremonial grade matcha whisked with milk.',       temps: ['hot', 'iced'],  price: { hot: 5.75, iced: 6.00 },  art: ['#f2e6cc', '#7fa85a', '#3f6b2c'] },
-  { cat: 'other', name: 'Chai Latte',         desc: 'Black tea, cardamom, clove and ginger.',           temps: ['hot', 'iced'],  price: { hot: 5.25, iced: 5.50 },  art: ['#efdcbc', '#c08a4e', '#7a4a24'] },
-  { cat: 'other', name: 'Hot Chocolate',      desc: 'Real chocolate, melted into steamed milk.',        temps: ['hot'],          price: { hot: 4.75 },              art: ['#f4e8d3', '#6b3d20', '#33190c'] },
-  { cat: 'other', name: 'London Fog',         desc: 'Earl Grey, vanilla and steamed milk.',             temps: ['hot', 'iced'],  price: { hot: 5.00, iced: 5.25 },  art: ['#f3e6d0', '#b79a7a', '#6f5a44'] },
-  { cat: 'other', name: 'Strawberry Refresher', desc: 'Cold, bright and not too sweet.',                temps: ['iced'],         price: { iced: 5.50 },             art: ['#f7c9c1', '#d9524c'] },
-  { cat: 'other', name: 'Hot Tea',            desc: 'Loose leaf, steeped to order. Ask what is on.',    temps: ['hot'],          price: { hot: 3.50 },              art: ['#e9d9ae', '#b8893c'] },
+  // ---- Matcha ------------------------------------------------------------
+  { cat: 'matcha', name: 'Matcha Latte',            price: 6.50, art: ['#f2e6cc', '#7fa85a', '#41702c'] },
+  { cat: 'matcha', name: 'Double Matcha',           price: 7.50, art: ['#cfe2a8', '#5f8f36', '#2f5a1c'] },
+  { cat: 'matcha', name: 'Strawberry Matcha Latte', price: 7.00, art: ['#f6cfc8', '#e8dcc0', '#6f9b45'] },
+  { cat: 'matcha', name: 'Lavender Matcha Latte',   price: 6.50, art: ['#ded0ec', '#8fb063', '#4a7a2e'] },
+  { cat: 'matcha', name: 'Banana Cream Matcha',     price: 7.50, art: ['#f8eec6', '#b9c777', '#4f8030'] },
+  { cat: 'matcha', name: 'Matcha Cream Strawberry', price: 7.50, art: ['#fbf1e0', '#f0b9ae', '#6f9b45'] },
+  { cat: 'matcha', name: 'Matcha Einspanner',       price: 7.50, art: ['#fdf6e6', '#9dbd6f', '#3f6b2c'] },
+
+  // ---- Tea & More --------------------------------------------------------
+  { cat: 'more', name: 'Hojicha',        price: 6.50, art: ['#f0ddbe', '#a9703c', '#5e3a1c'] },
+  { cat: 'more', name: 'Ube Einspanner', price: 7.00, art: ['#fdf6e6', '#b294d6', '#6d4a9c'] },
 
   // ---- Kitchen -----------------------------------------------------------
-  { cat: 'food', name: 'Butter Croissant',   desc: 'Laminated, baked each morning.',                    temps: [],  price: { any: 4.25 },  art: ['#f0cf94', '#c18b41'] },
-  { cat: 'food', name: 'Bagel & Schmear',    desc: 'Toasted, with plain or scallion cream cheese.',     temps: [],  price: { any: 4.75 },  art: ['#f4e3c2', '#cda265'] },
-  { cat: 'food', name: 'Avocado Toast',      desc: 'Sourdough, lemon, chili flake, flaky salt.',        temps: [],  price: { any: 9.50 },  art: ['#dfe9bd', '#8fae5c', '#c99a5e'] },
-  { cat: 'food', name: 'Breakfast Burrito',  desc: 'Egg, potato, cheese. Wrapped tight, served hot.',   temps: [],  price: { any: 10.50 }, art: ['#f2e2c4', '#d8b071'] },
-  { cat: 'food', name: 'Blueberry Muffin',   desc: 'Baked in house, still warm if you are early.',      temps: [],  price: { any: 4.00 },  art: ['#e8d2a8', '#8a7fb0'] },
-  { cat: 'food', name: 'Banana Bread',       desc: 'Dense, dark and lightly toasted on request.',       temps: [],  price: { any: 4.25 },  art: ['#e4c795', '#9a6b38'] }
+  { cat: 'kitchen', name: 'Pastries', price: { from: 5.00, to: 5.75 }, art: ['#f0cf94', '#c18b41'] },
+  { cat: 'kitchen', name: 'Bagel',    price: 4.50,                     art: ['#f4e3c2', '#cda265'] }
 ];
 
 const MENU_CATEGORIES = [
   { id: 'all',      label: 'Everything' },
-  { id: 'espresso', label: 'Espresso' },
-  { id: 'brew',     label: 'Brewed' },
-  { id: 'other',    label: 'Not Coffee' },
-  { id: 'food',     label: 'Kitchen' }
+  { id: 'coffee',   label: 'Coffee' },
+  { id: 'coldbrew', label: 'Cold Brew' },
+  { id: 'matcha',   label: 'Matcha' },
+  { id: 'more',     label: 'Tea & More' },
+  { id: 'kitchen',  label: 'Kitchen' }
 ];
 
 /* -----------------------------------------------------------------------------
    GALLERY
-   `src` items are real photos of the shop. `art` items are drawn in CSS, so the
-   grid stays full and handsome even if a photo fails to load.
-   ⚠️ Captions on the photos are intentionally neutral — rewrite them once you
-      know which photo is which.
+   `photo` entries are the shop's real photos; `art` entries are drawn in CSS
+   from the menu's own drinks, so the grid stays full and handsome even if a
+   photo host stops serving.
+   ⚠️ The photo captions are neutral — rewrite them to describe what each shows.
 -------------------------------------------------------------------------------*/
 const GALLERY = [
-  { type: 'photo', src: PHOTOS.one,   tag: 'shop',    caption: 'Caffe In Coffee Co',     sub: 'Anaheim Hills' },
-  { type: 'art',   art: ['#efdcc0', '#b07f4c'],                   tag: 'espresso', caption: 'Latte',        sub: 'Steamed milk, clean pour' },
-  { type: 'photo', src: PHOTOS.two,   tag: 'shop',    caption: 'On the bar',             sub: 'Made to order' },
-  { type: 'art',   art: ['#c9a179', '#4a2a13', '#201006'], iced: true, tag: 'cold',  caption: 'Nitro Cold Brew', sub: 'Sixteen hours, on tap' },
-  { type: 'art',   art: ['#f2e6cc', '#7fa85a', '#3f6b2c'],         tag: 'espresso', caption: 'Matcha Latte', sub: 'Whisked, never scooped' },
-  { type: 'photo', src: PHOTOS.three, tag: 'shop',    caption: '5642 E La Palma Ave',     sub: 'Suite 112' },
-  { type: 'art',   art: ['#e6cfae', '#7a4a28', '#38200f'], iced: true, tag: 'cold',  caption: 'Iced Mocha',   sub: 'Dark chocolate, over ice' },
-  { type: 'art',   art: ['#f7c9c1', '#d9524c'], iced: true,        tag: 'cold',     caption: 'Strawberry Refresher', sub: 'Cold and bright' },
-  { type: 'art',   art: ['#efdcbc', '#c08a4e', '#7a4a24'],         tag: 'espresso', caption: 'Chai Latte',   sub: 'Cardamom and clove' }
+  { type: 'photo', src: PHOTOS.shopOne,   tag: 'shop',   caption: 'Caffe In Coffee Co', sub: 'Anaheim Hills' },
+  { type: 'art',   art: ['#f2e6cc', '#7fa85a', '#41702c'],           tag: 'matcha', caption: 'Matcha Latte',        sub: '$6.50' },
+  { type: 'photo', src: PHOTOS.yelpOne,   tag: 'shop',   caption: 'On the bar',         sub: 'From Yelp' },
+  { type: 'art',   art: ['#fdf6e6', '#9dbd6f', '#3f6b2c'],           tag: 'matcha', caption: 'Matcha Einspanner',   sub: '$7.50' },
+  { type: 'art',   art: ['#5c3418', '#26120a'], iced: true,          tag: 'cold',   caption: 'Cold Brew',           sub: '$5.75' },
+  { type: 'photo', src: PHOTOS.shopTwo,   tag: 'shop',   caption: 'Made to order',      sub: 'Caffe In Coffee Co' },
+  { type: 'art',   art: ['#f6cfc8', '#e8dcc0', '#6f9b45'],           tag: 'matcha', caption: 'Strawberry Matcha Latte', sub: '$7.00' },
+  { type: 'art',   art: ['#f2ddb8', '#b9773a', '#7d4a1e'],           tag: 'coffee', caption: 'Biscoff Latte',       sub: '$6.75' },
+  { type: 'photo', src: PHOTOS.yelpTwo,   tag: 'shop',   caption: 'Caffe In Coffee Co', sub: 'From Yelp' },
+  { type: 'art',   art: ['#fdf6e6', '#b294d6', '#6d4a9c'],           tag: 'more',   caption: 'Ube Einspanner',      sub: '$7.00' },
+  { type: 'art',   art: ['#eed7ac', '#a76c32', '#6b4118'],           tag: 'coffee', caption: 'Brown Sugar Oat Latte', sub: '$7.00' },
+  { type: 'photo', src: PHOTOS.shopThree, tag: 'shop',   caption: '5642 E La Palma Ave', sub: 'Suite 112' },
+  { type: 'art',   art: ['#e4c294', '#7d4a20', '#33190b'], iced: true, tag: 'cold', caption: 'Maple Cold Brew Latte', sub: '$6.25' },
+  { type: 'art',   art: ['#f0ddbe', '#a9703c', '#5e3a1c'],           tag: 'more',   caption: 'Hojicha',             sub: '$6.50' },
+  { type: 'art',   art: ['#f8ecc4', '#dcc07a', '#a8763c'],           tag: 'coffee', caption: 'Banana Cream Latte',  sub: '$7.00' }
 ];
 
 const GALLERY_FILTERS = [
-  { id: 'all',      label: 'All' },
-  { id: 'shop',     label: 'The Shop' },
-  { id: 'espresso', label: 'Espresso Bar' },
-  { id: 'cold',     label: 'Cold' }
+  { id: 'all',    label: 'All' },
+  { id: 'shop',   label: 'The Shop' },
+  { id: 'coffee', label: 'Coffee' },
+  { id: 'matcha', label: 'Matcha' },
+  { id: 'cold',   label: 'Cold' },
+  { id: 'more',   label: 'Tea & More' }
 ];
 
 /* -----------------------------------------------------------------------------
-   BUILD YOUR CUP  ⚠️ PLACEHOLDER PRICING — match these to the real till.
+   REVIEWS — quoted verbatim from the shop's Yelp page. Names and locations are
+   as Yelp displays them publicly.
+
+   Do not edit the `text` of a review: it is someone else's words. To remove one,
+   delete the whole entry. `body` is an array so paragraphs stay intact.
 -------------------------------------------------------------------------------*/
-const BUILDER = {
-  bases: [
-    { id: 'latte',    name: 'Latte',      base: 5.00, art: ['#efdcc0', '#b07f4c'] },
-    { id: 'mocha',    name: 'Mocha',      base: 5.75, art: ['#e6cfae', '#7a4a28', '#38200f'] },
-    { id: 'matcha',   name: 'Matcha',     base: 5.75, art: ['#f2e6cc', '#7fa85a', '#3f6b2c'] },
-    { id: 'coldbrew', name: 'Cold Brew',  base: 5.25, art: ['#5c3418', '#2a1409'], icedOnly: true },
-    { id: 'chai',     name: 'Chai',       base: 5.25, art: ['#efdcbc', '#c08a4e', '#7a4a24'] }
-  ],
-  sizes: [
-    { id: 'sm', name: 'Small',  add: 0.00, oz: '8 oz'  },
-    { id: 'md', name: 'Medium', add: 0.75, oz: '12 oz' },
-    { id: 'lg', name: 'Large',  add: 1.40, oz: '16 oz' }
-  ],
-  milks: [
-    { id: 'whole',  name: 'Whole',  add: 0.00 },
-    { id: 'nonfat', name: 'Nonfat', add: 0.00 },
-    { id: 'oat',    name: 'Oat',    add: 0.80 },
-    { id: 'almond', name: 'Almond', add: 0.80 },
-    { id: 'breve',  name: 'Breve',  add: 1.00 }
-  ],
-  syrups: [
-    { id: 'vanilla',     name: 'Vanilla',     add: 0.60 },
-    { id: 'caramel',     name: 'Caramel',     add: 0.60 },
-    { id: 'hazelnut',    name: 'Hazelnut',    add: 0.60 },
-    { id: 'lavender',    name: 'Lavender',    add: 0.60 },
-    { id: 'brownsugar',  name: 'Brown Sugar', add: 0.60 }
-  ],
-  extraShot: 1.00
-};
+const REVIEWS = [
+  {
+    name: 'Melanie K.',
+    place: 'Buena Park, CA',
+    date: 'Jul 10, 2026',
+    stars: 5,
+    badges: ['Elite 26'],
+    body: [
+      "I absolutely love supporting small, family-owned coffee shops, and this place is such a hidden gem. The owners are a young, Korean-American couple who really put their heart and soul into their craft! They make their cream for their cream-top IN HOUSE AND ITS MIND-BLOWING DELICIOUS YO",
+      "Anyway, everything here from the matcha to the coffee is consistently delicious, and you can tell everything is made with precision! These people genuinely care about their customers and make everyone feel like family.",
+      "It's refreshing to find a place that values quality, community, and hospitality all at once. If you're looking for a cozy spot to enjoy a great cup of coffee while supporting a local business, I can't recommend this café enough. I'll definitely keep coming back!"
+    ]
+  },
+  {
+    name: 'Grace N.',
+    place: 'Long Beach, CA',
+    date: 'Aug 9, 2026',
+    stars: 5,
+    badges: ['Elite 26', 'All-Star'],
+    body: [
+      "Another check off my list of running into random but great great matcha spot!",
+      "This is another one to add to one of my best matcha lists. Their matcha is strong and of high quality though I did not get a chance to ask for the brand. I got a double matcha (waited for freshly made matcha cream top), matcha mango, ad a biscotti latte with the cream top, so yummy.",
+      "The inside is pretty small, and in such hot summer weather, I don't think you can sit outside unless there are some room to sit inside. There isn't any space to sit or work or study either. Def just a spot to grab really good matcha and good coffee! Highly recommend!"
+    ]
+  },
+  {
+    name: 'CassidyJo F.',
+    place: 'Fullerton, CA',
+    date: 'Aug 26, 2026',
+    stars: 5,
+    badges: [],
+    body: [
+      "Isabella and Ethan were so friendly and the coffee was exceptional! I will be coming back again and again :)"
+    ]
+  },
+  {
+    name: 'William P.',
+    place: 'Kent, WA',
+    date: 'Aug 18, 2026',
+    stars: 5,
+    badges: [],
+    body: [
+      "I came here once and all of a sudden I find myself here all the time now. Brooke especially makes my drinks taste so good and the customer service here is sublime."
+    ]
+  }
+];

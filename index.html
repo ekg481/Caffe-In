@@ -31,7 +31,7 @@
     <nav class="nav__links" aria-label="Primary">
       <a href="#menu">Menu</a>
       <a href="#gallery">Gallery</a>
-      <a href="#build">Build a Cup</a>
+      <a href="#reviews">Reviews</a>
       <a href="#visit">Visit</a>
     </nav>
 
@@ -55,7 +55,7 @@
 <div class="mobile-nav" id="mobileNav" hidden>
   <a href="#menu">Menu</a>
   <a href="#gallery">Gallery</a>
-  <a href="#build">Build a Cup</a>
+  <a href="#reviews">Reviews</a>
   <a href="#visit">Visit</a>
   <a class="btn btn--solid" id="mobileDirections" href="#visit">Get Directions</a>
 </div>
@@ -120,20 +120,13 @@
     <header class="section__head reveal">
       <p class="eyebrow">The Menu</p>
       <h2>Pulled, brewed,<br>and baked daily.</h2>
-      <p class="section__lede">Filter by what you are after, or switch between hot and iced to see what we pour cold.</p>
+      <p class="section__lede">The full board, straight from the counter. Filter by what you are after, or search for it.</p>
     </header>
 
     <div class="controls reveal">
       <div class="chips" id="menuChips" role="tablist" aria-label="Menu categories"></div>
 
       <div class="controls__right">
-        <div class="segmented" id="tempToggle" role="radiogroup" aria-label="Temperature">
-          <button type="button" role="radio" data-temp="all"  aria-checked="true">Both</button>
-          <button type="button" role="radio" data-temp="hot"  aria-checked="false">Hot</button>
-          <button type="button" role="radio" data-temp="iced" aria-checked="false">Iced</button>
-          <span class="segmented__pill" aria-hidden="true"></span>
-        </div>
-
         <label class="search">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
           <input type="search" id="menuSearch" placeholder="Search the menu" aria-label="Search the menu" autocomplete="off">
@@ -160,71 +153,39 @@
   </div>
 </section>
 
-<!-- ============================== BUILD A CUP ============================== -->
-<section class="section" id="build">
+<!-- ============================== REVIEWS ============================== -->
+<section class="section" id="reviews">
   <div class="wrap">
     <header class="section__head reveal">
-      <p class="eyebrow">Build a Cup</p>
-      <h2>Know what you<br>want before you go.</h2>
-      <p class="section__lede">Put your order together here, then show the summary at the counter.</p>
+      <p class="eyebrow">Reviews</p>
+      <h2>What people<br>say on Yelp.</h2>
+      <p class="section__lede">Quoted as written. Use the arrows, swipe, or the arrow keys to move through them.</p>
     </header>
 
-    <div class="builder reveal">
-      <div class="builder__form">
-        <fieldset class="field">
-          <legend>Base</legend>
-          <div class="opts" id="bBases"></div>
-        </fieldset>
+    <div class="reviews reveal">
+      <button class="reviews__nav reviews__nav--prev" id="revPrev" type="button" aria-label="Previous review">&#8249;</button>
 
-        <fieldset class="field">
-          <legend>Temperature</legend>
-          <div class="opts opts--wide" id="bTemps"></div>
-        </fieldset>
-
-        <fieldset class="field">
-          <legend>Size</legend>
-          <div class="opts opts--wide" id="bSizes"></div>
-        </fieldset>
-
-        <fieldset class="field">
-          <legend>Milk</legend>
-          <div class="opts" id="bMilks"></div>
-        </fieldset>
-
-        <fieldset class="field">
-          <legend>Syrups <span class="field__note">pick as many as you like</span></legend>
-          <div class="opts" id="bSyrups"></div>
-        </fieldset>
-
-        <fieldset class="field">
-          <legend>Extras</legend>
-          <div class="opts opts--narrow" id="bExtras"></div>
-        </fieldset>
+      <div class="reviews__stage">
+        <blockquote class="review" id="revCard" tabindex="0" aria-live="polite">
+          <div class="review__stars" id="revStars" aria-hidden="true"></div>
+          <div class="review__body" id="revBody"></div>
+          <footer class="review__by">
+            <span class="review__avatar" id="revAvatar" aria-hidden="true"></span>
+            <span class="review__who">
+              <strong id="revName"></strong>
+              <span id="revMeta"></span>
+            </span>
+            <span class="review__badges" id="revBadges"></span>
+          </footer>
+        </blockquote>
       </div>
 
-      <aside class="builder__receipt">
-        <div class="receipt">
-          <div class="receipt__cup">
-            <div class="cup cup--lg" id="bCup">
-              <div class="cup__body"><div class="cup__liquid"></div><div class="cup__shine"></div><div class="cup__ice" hidden><i></i><i></i><i></i></div></div>
-              <div class="cup__handle"></div>
-              <div class="cup__straw" hidden></div>
-            </div>
-            <div class="steam" id="bSteam"><i></i><i></i><i></i></div>
-          </div>
+      <button class="reviews__nav reviews__nav--next" id="revNext" type="button" aria-label="Next review">&#8250;</button>
 
-          <h3 class="receipt__name" id="bName">Medium Latte</h3>
-          <ul class="receipt__lines" id="bLines"></ul>
-
-          <div class="receipt__total">
-            <span>Total</span>
-            <strong id="bTotal">$5.75</strong>
-          </div>
-          <p class="receipt__fine">Sample pricing — check the board in store.</p>
-          <button class="btn btn--solid btn--block" type="button" id="bCopy">Copy my order</button>
-        </div>
-      </aside>
+      <div class="reviews__dots" id="revDots" role="tablist" aria-label="Choose a review"></div>
     </div>
+
+    <p class="reviews__source" id="revSource"></p>
   </div>
 </section>
 

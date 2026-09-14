@@ -211,7 +211,7 @@
     const fig = $('#heroPhoto');
     const img = $('img', fig);
     img.addEventListener('error', () => fig.classList.add('is-fallback'));
-    img.src = PHOTOS.one;
+    img.src = PHOTOS.shopOne;
   })();
 
   /* ------------------------------------------------------------ drawn cup */
@@ -232,30 +232,22 @@
   /* ----------------------------------------------------------------- menu */
   const menuGrid = $('#menuGrid');
   const menuEmpty = $('#menuEmpty');
-  const menuState = { cat: 'all', temp: 'all', q: '' };
+  const menuState = { cat: 'all', q: '' };
 
   $('#menuChips').innerHTML = MENU_CATEGORIES.map(c =>
     '<button class="chip" role="tab" type="button" data-cat="' + c.id + '" aria-selected="' + (c.id === 'all') + '">' + c.label + '</button>'
   ).join('');
 
-  function priceFor(item, temp) {
-    if (item.price.any != null) return { value: item.price.any, note: '' };
-    if (temp !== 'all' && item.price[temp] != null) return { value: item.price[temp], note: temp };
-    const keys = Object.keys(item.price);
-    const low = Math.min.apply(null, keys.map(k => item.price[k]));
-    return { value: low, note: keys.length > 1 ? 'from' : keys[0] };
+  // A price is either a number or a { from, to } range.
+  function priceLabel(price) {
+    return typeof price === 'number'
+      ? money(price)
+      : money(price.from) + ' – ' + money(price.to);
   }
 
   function matches(item) {
     if (menuState.cat !== 'all' && item.cat !== menuState.cat) return false;
-    if (menuState.temp !== 'all') {
-      // Food has no temperature, so it only shows under "Both".
-      if (!item.temps.includes(menuState.temp)) return false;
-    }
-    if (menuState.q) {
-      const hay = (item.name + ' ' + item.desc).toLowerCase();
-      if (!hay.includes(menuState.q)) return false;
-    }
+    if (menuState.q && !item.name.toLowerCase().includes(menuState.q)) return false;
     return true;
   }
 
@@ -263,23 +255,19 @@
     const list = MENU.filter(matches);
     menuEmpty.hidden = list.length > 0;
 
-    menuGrid.innerHTML = list.map((item, i) => {
-      const p = priceFor(item, menuState.temp);
-      const iced = menuState.temp === 'iced' || (menuState.temp === 'all' && item.temps.length === 1 && item.temps[0] === 'iced');
-      const tags = item.temps.map(t => '<span class="item__tag" data-t="' + t + '">' + (t === 'hot' ? 'Hot' : 'Iced') + '</span>').join('');
-      return '<article class="item" style="animation-delay:' + Math.min(i * 26, 380) + 'ms">' +
-               '<div class="item__art">' + miniCup(item.art, iced) + '</div>' +
-               '<div class="item__body">' +
-                 '<div class="item__top">' +
-                   '<h3 class="item__name">' + item.name + '</h3>' +
-                   '<span class="item__dots"></span>' +
-                   '<span class="item__price">' + money(p.value) + (p.note ? '<small>' + p.note + '</small>' : '') + '</span>' +
-                 '</div>' +
-                 '<p class="item__desc">' + item.desc + '</p>' +
-                 (tags ? '<div class="item__tags">' + tags + '</div>' : '') +
-               '</div>' +
-             '</article>';
-    }).join('');
+    menuGrid.innerHTML = list.map((item, i) =>
+      '<article class="item" style="animation-delay:' + Math.min(i * 22, 340) + 'ms">' +
+        '<div class="item__art">' + miniCup(item.art, item.iced) + '</div>' +
+        '<div class="item__body">' +
+          '<div class="item__top">' +
+            '<h3 class="item__name">' + item.name + '</h3>' +
+            '<span class="item__dots"></span>' +
+            '<span class="item__price">' + priceLabel(item.price) + '</span>' +
+          '</div>' +
+          (item.iced ? '<div class="item__tags"><span class="item__tag" data-t="iced">Iced</span></div>' : '') +
+        '</div>' +
+      '</article>'
+    ).join('');
   }
 
   $('#menuChips').addEventListener('click', e => {
@@ -290,44 +278,20 @@
     renderMenu();
   });
 
-  const tempToggle = $('#tempToggle');
-  const tempPill = $('.segmented__pill', tempToggle);
-
-  function movePill() {
-    const active = $('button[aria-checked="true"]', tempToggle);
-    if (!active) return;
-    tempPill.style.width = active.offsetWidth + 'px';
-    tempPill.style.transform = 'translateX(' + (active.offsetLeft - 4) + 'px)';
-  }
-
-  tempToggle.addEventListener('click', e => {
-    const btn = e.target.closest('button');
-    if (!btn) return;
-    $$('button', tempToggle).forEach(b => b.setAttribute('aria-checked', String(b === btn)));
-    menuState.temp = btn.dataset.temp;
-    movePill();
-    renderMenu();
-  });
-
   $('#menuSearch').addEventListener('input', e => {
     menuState.q = e.target.value.trim().toLowerCase();
     renderMenu();
   });
 
   $('#menuReset').addEventListener('click', () => {
-    menuState.cat = 'all'; menuState.temp = 'all'; menuState.q = '';
+    menuState.cat = 'all';
+    menuState.q = '';
     $('#menuSearch').value = '';
     $$('#menuChips .chip').forEach(c => c.setAttribute('aria-selected', String(c.dataset.cat === 'all')));
-    $$('button', tempToggle).forEach(b => b.setAttribute('aria-checked', String(b.dataset.temp === 'all')));
-    movePill();
     renderMenu();
   });
 
   renderMenu();
-  // Fonts change button widths, so place the pill once they have settled.
-  movePill();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(movePill);
-  window.addEventListener('resize', movePill);
 
   /* -------------------------------------------------------------- gallery */
   const galleryGrid = $('#galleryGrid');
@@ -461,124 +425,100 @@
     else if (e.key === 'Tab') { e.preventDefault(); $('#lbClose').focus(); }
   });
 
-  /* -------------------------------------------------------------- builder */
-  const order = {
-    base: BUILDER.bases[0],
-    temp: 'hot',
-    size: BUILDER.sizes[1],
-    milk: BUILDER.milks[0],
-    syrups: [],
-    shot: false
-  };
+  /* -------------------------------------------------------------- reviews */
+  // Quotes are other people's words: rendered as text, never as markup, and
+  // never edited here. Paragraph breaks come from the `body` array.
+  const revCard = $('#revCard');
+  let revIndex = 0;
+  let revSwapping = false;
 
-  function radios(container, list, name, render) {
-    // the <input> is visually hidden; the styled <span> beside it is the control
-    $(container).innerHTML = list.map(o =>
-      '<label class="opt"><input type="radio" name="' + name + '" value="' + o.id + '">' +
-      '<span>' + render(o) + '</span></label>'
-    ).join('');
+  function star() {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.6 9.4l6.5-.9z"/></svg>';
   }
 
-  radios('#bBases', BUILDER.bases, 'base', o => o.name + '<em>' + money(o.base) + '</em>');
-  radios('#bSizes', BUILDER.sizes, 'size', o => o.name + '<em>' + o.oz + '</em>');
-  radios('#bMilks', BUILDER.milks, 'milk', o => o.name + (o.add ? '<em>+' + money(o.add) + '</em>' : ''));
+  function initials(name) {
+    return name.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  }
 
-  $('#bTemps').innerHTML =
-    '<label class="opt"><input type="radio" name="temp" value="hot"><span>Hot</span></label>' +
-    '<label class="opt"><input type="radio" name="temp" value="iced"><span>Iced</span></label>';
-
-  $('#bSyrups').innerHTML = BUILDER.syrups.map(s =>
-    '<label class="opt"><input type="checkbox" name="syrup" value="' + s.id + '">' +
-    '<span>' + s.name + '<em>+' + money(s.add) + '</em></span></label>'
+  $('#revDots').innerHTML = REVIEWS.map((r, i) =>
+    '<button class="reviews__dot" role="tab" type="button" data-i="' + i + '"' +
+    ' aria-selected="' + (i === 0) + '" aria-label="Review ' + (i + 1) + ' of ' + REVIEWS.length + '"></button>'
   ).join('');
 
-  $('#bExtras').innerHTML =
-    '<label class="opt"><input type="checkbox" id="bShot"><span>Extra shot<em>+' + money(BUILDER.extraShot) + '</em></span></label>';
+  function paintReview() {
+    const r = REVIEWS[revIndex];
 
-  // Set the opening selection.
-  $('#bBases input[value="' + order.base.id + '"]').checked = true;
-  $('#bTemps input[value="hot"]').checked = true;
-  $('#bSizes input[value="' + order.size.id + '"]').checked = true;
-  $('#bMilks input[value="' + order.milk.id + '"]').checked = true;
+    $('#revStars').innerHTML = new Array(r.stars).fill(star()).join('');
 
-  function orderName() {
-    const bits = [];
-    if (order.temp === 'iced') bits.push('Iced');
-    bits.push(order.size.name);
-    if (order.milk.id !== 'whole') bits.push(order.milk.name);
-    if (order.syrups.length === 1) bits.push(order.syrups[0].name);
-    else if (order.syrups.length > 1) bits.push(order.syrups.length + '-syrup');
-    bits.push(order.base.name);
-    return bits.join(' ');
+    // textContent, not innerHTML — the quote is data, not markup.
+    const body = $('#revBody');
+    body.innerHTML = '';
+    // A short opening line reads well set large; a long one turns into a wall
+    // of display type, so it stays at body size.
+    body.classList.toggle('has-lead', r.body[0].length <= 180);
+    r.body.forEach(para => {
+      const p = document.createElement('p');
+      p.textContent = para;
+      body.appendChild(p);
+    });
+
+    $('#revAvatar').textContent = initials(r.name);
+    $('#revName').textContent = r.name;
+    $('#revMeta').textContent = r.place + ' · ' + r.date;
+    const badges = $('#revBadges');
+    badges.innerHTML = '';
+    r.badges.forEach(label => {
+      const el = document.createElement('span');
+      el.className = 'review__badge';
+      el.textContent = label;
+      badges.appendChild(el);
+    });
+
+    $$('#revDots .reviews__dot').forEach((d, i) =>
+      d.setAttribute('aria-selected', String(i === revIndex)));
   }
 
-  function orderLines() {
-    const lines = [{ label: order.base.name, cost: order.base.base, base: true }];
-    lines.push({ label: order.size.name + ' (' + order.size.oz + ')', cost: order.size.add });
-    lines.push({ label: order.milk.name + ' milk', cost: order.milk.add });
-    order.syrups.forEach(s => lines.push({ label: s.name + ' syrup', cost: s.add }));
-    if (order.shot) lines.push({ label: 'Extra shot', cost: BUILDER.extraShot });
-    return lines;
+  function showReview(i) {
+    if (revSwapping) return;
+    revIndex = (i + REVIEWS.length) % REVIEWS.length;
+    revSwapping = true;
+    revCard.classList.add('is-swapping');
+    setTimeout(() => {
+      paintReview();
+      revCard.classList.remove('is-swapping');
+      revSwapping = false;
+    }, 200);
   }
 
-  function paintOrder() {
-    // Cold brew is never poured hot, so lock the hot option when it is picked.
-    const hotInput = $('#bTemps input[value="hot"]');
-    if (order.base.icedOnly) {
-      hotInput.disabled = true;
-      if (order.temp === 'hot') {
-        order.temp = 'iced';
-        $('#bTemps input[value="iced"]').checked = true;
-      }
-    } else {
-      hotInput.disabled = false;
-    }
-
-    const lines = orderLines();
-    const total = lines.reduce((sum, l) => sum + l.cost, 0);
-
-    $('#bName').textContent = orderName();
-    $('#bLines').innerHTML = lines.map(l =>
-      '<li><span>' + l.label + '</span><span>' + (l.base ? money(l.cost) : (l.cost ? '+' + money(l.cost) : '—')) + '</span></li>'
-    ).join('');
-    $('#bTotal').textContent = money(total);
-
-    const cup = $('#bCup');
-    const liquid = $('.cup__liquid', cup);
-    liquid.style.background = gradient(order.base.art);
-    $('.cup__ice', cup).hidden = order.temp !== 'iced';
-    $('.cup__straw', cup).hidden = order.temp !== 'iced';
-    $('#bSteam').hidden = order.temp !== 'hot';
-
-    return total;
-  }
-
-  $('.builder__form').addEventListener('change', e => {
-    const t = e.target;
-    if (t.name === 'base')  order.base = BUILDER.bases.find(b => b.id === t.value);
-    if (t.name === 'temp')  order.temp = t.value;
-    if (t.name === 'size')  order.size = BUILDER.sizes.find(s => s.id === t.value);
-    if (t.name === 'milk')  order.milk = BUILDER.milks.find(m => m.id === t.value);
-    if (t.name === 'syrup') {
-      order.syrups = $$('#bSyrups input:checked').map(i => BUILDER.syrups.find(s => s.id === i.value));
-    }
-    if (t.id === 'bShot') order.shot = t.checked;
-    paintOrder();
+  $('#revPrev').addEventListener('click', () => showReview(revIndex - 1));
+  $('#revNext').addEventListener('click', () => showReview(revIndex + 1));
+  $('#revDots').addEventListener('click', e => {
+    const dot = e.target.closest('.reviews__dot');
+    if (dot) showReview(Number(dot.dataset.i));
   });
 
-  $('#bCopy').addEventListener('click', () => {
-    const lines = orderLines();
-    const total = lines.reduce((sum, l) => sum + l.cost, 0);
-    const text = [
-      orderName(),
-      lines.map(l => '· ' + l.label).join('\n'),
-      'Total ' + money(total) + ' (sample pricing)',
-      CAFE.fullName + ' — ' + CAFE.address.line1
-    ].join('\n');
-    copy(text, 'Order copied to your clipboard');
+  // Arrow keys work while the card itself has focus, so they never fight with
+  // the page scroll or the lightbox.
+  revCard.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); showReview(revIndex - 1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); showReview(revIndex + 1); }
   });
 
-  paintOrder();
+  // Swipe, for touch.
+  let touchX = null;
+  revCard.addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, { passive: true });
+  revCard.addEventListener('touchend', e => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    touchX = null;
+    if (Math.abs(dx) > 45) showReview(revIndex + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
+  paintReview();
+
+  $('#revSource').innerHTML = CAFE.yelp
+    ? 'Reviewed on <a href="' + CAFE.yelp + '" target="_blank" rel="noopener">Yelp</a>.'
+    : 'Reviews as posted on Yelp.';
 
   /* ---------------------------------------------------------------- visit */
   ['#directionsBtn', '#mapLink'].forEach(sel => { $(sel).href = MAPS_URL; });
