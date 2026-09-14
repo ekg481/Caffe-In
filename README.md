@@ -81,5 +81,29 @@ To self-host instead, drop the files in `assets/img/` and point `PHOTOS` at them
 
 ## Deploying
 
-Any static host works. For GitHub Pages: Settings → Pages → deploy from the
-branch root.
+### Netlify Drop (no account needed to start)
+
+1. Go to <https://app.netlify.com/drop>.
+2. Drag this folder onto the page — or drag a zip whose **root** is
+   `index.html` (not a folder containing it, or the site lands one level down).
+3. It goes live in a few seconds on a random `*.netlify.app` URL. Claim the
+   site to keep it, rename it, or attach a domain.
+
+To update later, drag the folder in again on the site's **Deploys** tab. Or
+link this Git repo under *Site configuration → Build & deploy* — there is no
+build step, so leave the build command empty and the publish directory as `.`.
+
+`netlify.toml` sets the caching and security headers and needs no edits. Two
+notes:
+
+- CSS and JS are deliberately **not** cached hard, because their filenames are
+  not content-hashed — an edit shows up on the next load. The fonts get a
+  one-year immutable cache.
+- The `Content-Security-Policy` allows images from
+  `lh3.googleusercontent.com`, which is where the shop photos come from. If you
+  move to self-hosted photos, drop that host from the policy.
+
+### Anywhere else
+
+Any static host works — it is plain files with no build step. For GitHub Pages:
+Settings → Pages → deploy from the branch root.
