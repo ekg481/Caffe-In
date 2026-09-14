@@ -22,22 +22,41 @@
     toastTimer = setTimeout(() => toastEl.classList.remove('is-on'), 2400);
   }
 
+  // iOS Safari ignores textarea.select() for copy purposes — it needs a real
+  // Range selection plus setSelectionRange, and a font-size of at least 16px
+  // on the scratch element or it zooms the page while selecting.
+  function legacyCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.contentEditable = 'true';
+    ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px';
+    document.body.appendChild(ta);
+
+    const range = document.createRange();
+    range.selectNodeContents(ta);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    ta.setSelectionRange(0, text.length);
+
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+    sel.removeAllRanges();
+    ta.remove();
+    return ok;
+  }
+
   async function copy(text, msg) {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast(msg);
-    } catch (err) {
-      // Clipboard API needs a secure context; fall back to the old trick.
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.setAttribute('readonly', '');
-      ta.style.cssText = 'position:fixed;top:-1000px';
-      document.body.appendChild(ta);
-      ta.select();
-      const ok = document.execCommand && document.execCommand('copy');
-      ta.remove();
-      toast(ok ? msg : 'Could not copy — select the text instead.');
+    // The async API needs a secure context — absent over plain http.
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(text);
+        toast(msg);
+        return;
+      } catch (err) { /* fall through */ }
     }
+    toast(legacyCopy(text) ? msg : 'Could not copy — press and hold to select instead.');
   }
 
   /* ---------------------------------------------------------------- theme */
@@ -361,6 +380,33 @@
   const lbCount = $('#lbCount');
   let lbIndex = 0;
   let lastFocus = null;
+  let lockedY = 0;
+
+  // overflow:hidden on <body> does not hold on iOS — the page still rubber-bands
+  // behind the overlay. Pinning the body and restoring the offset does.
+  function lockScroll() {
+    lockedY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.position = 'fixed';
+    document.body.style.top = -lockedY + 'px';
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
+  }
+
+  function unlockScroll() {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    // html sets scroll-behavior: smooth, which would animate the restore and
+    // read as the page sliding away on its own.
+    const html = document.documentElement;
+    const prev = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';
+    window.scrollTo(0, lockedY);
+    html.style.scrollBehavior = prev;
+  }
 
   function paintLightbox() {
     const g = galleryView[lbIndex];
@@ -379,15 +425,17 @@
     lbIndex = i;
     lastFocus = document.activeElement;
     lb.hidden = false;
-    document.body.style.overflow = 'hidden';
+    lockScroll();
     paintLightbox();
     $('#lbClose').focus();
   }
 
   function closeLightbox() {
     lb.hidden = true;
-    document.body.style.overflow = '';
-    if (lastFocus) lastFocus.focus();
+    unlockScroll();
+    // preventScroll, or focusing the tile nudges the page to bring it fully
+    // into view and the restored position drifts.
+    if (lastFocus) lastFocus.focus({ preventScroll: true });
   }
 
   function step(delta) {

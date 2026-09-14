@@ -77,7 +77,34 @@ To self-host instead, drop the files in `assets/img/` and point `PHOTOS` at them
   highlighted.
 - Light and dark themes, remembered per visitor; follows the system setting
   until the visitor picks one.
-- Responsive to ~390px, honours `prefers-reduced-motion`, keyboard accessible.
+- Honours `prefers-reduced-motion`, keyboard accessible.
+
+## iOS / Safari
+
+Laid out and checked at real iPhone viewports — 320, 375, 390 and 430 wide plus
+landscape — with no horizontal scroll at any of them, and every control at a
+~44px touch target. Specific WebKit handling:
+
+- `color-mix()` (Safari 16.2+) has a plain-colour fallback on every use, so
+  older iPhones get flat colours instead of a dropped declaration.
+- `backdrop-filter` carries its `-webkit-` prefix.
+- The lightbox is sized in `dvh` with a `vh` fallback, because `vh` on iOS
+  counts the browser chrome and hides content behind the toolbars.
+- The search field is 16px, under which iOS zooms the page on focus.
+- `overflow-x: hidden` is off the body — in WebKit it silently breaks
+  `position: sticky` on the nav. Nothing overflows, so it is not needed.
+- `:hover` effects are switched off under `@media (hover: none)`; on a touch
+  screen hover latches after a tap and freezes the lift on whatever was
+  touched last.
+- The lightbox pins the body and restores the exact scroll position on close —
+  `overflow: hidden` alone does not stop iOS rubber-banding behind an overlay.
+- Copy-to-clipboard falls back to a Range-based selection, which is the only
+  form iOS accepts when the async Clipboard API is unavailable.
+
+Caveat: the browser here is Chromium, so these are WebKit fixes made by review
+and verified for layout and behaviour at iPhone sizes — not a run on real iOS
+Safari. Worth a quick look on an actual iPhone before you point customers at
+it.
 
 ## Deploying
 
