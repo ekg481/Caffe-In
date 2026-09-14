@@ -15,6 +15,7 @@ index.html              markup
 assets/css/styles.css   styles (light + dark themes)
 assets/js/config.js     ALL content — hours, menu, gallery, prices
 assets/js/main.js       interactions
+assets/fonts/           Rubik (self-hosted, OFL)
 ```
 
 Everything you'd want to change day to day lives in `assets/js/config.js`.
@@ -36,6 +37,23 @@ Some of the rest is placeholder and needs a pass — every item is flagged with 
 
 There is also a "Sample pricing — check the board in store" note under the order
 total. Remove it once the prices are real.
+
+## Type
+
+The site is set in **Rubik**, matched to the lettering on the shop's own sign.
+It is self-hosted from `assets/fonts/` — one variable file covering weights
+300–900, ~55 KB — so the page requests nothing from Google and the type is
+painted on first render. Rubik is under the SIL Open Font License; the licence
+travels with it in `assets/fonts/OFL.txt` and must stay there.
+
+To try a different face, change one line in `styles.css`:
+
+```css
+--font-display: 'Rubik', 'Trebuchet MS', system-ui, sans-serif;
+--font-body:    'Rubik', system-ui, -apple-system, 'Segoe UI', sans-serif;
+```
+
+The next-closest matches to the sign are Figtree, Work Sans and Public Sans.
 
 ## Photos
 
